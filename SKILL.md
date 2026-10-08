@@ -1,25 +1,26 @@
-# 🛡️ API Security Auditor
+---
+name: api-security-auditor
+description: Audita y fortifica rutas de API backend y consultas a bases de datos (Flask, Node.js, Next.js, SQL). Se activa al pedir una revisión de seguridad, endurecimiento de endpoints o comprobar vulnerabilidades.
+---
+# Auditor de Seguridad de APIs
 
-Este repositorio contiene la definición de una habilidad de Inteligencia Artificial especializada en ciberseguridad backend y su respectiva *landing page* de demostración. Está diseñado para auditar código vulnerable en tiempo real e implementar arquitecturas seguras por defecto.
+Analiza, audita y refactoriza código de backend para aplicar estándares estrictos de ciberseguridad, previniendo vulnerabilidades críticas y fortificando las APIs.
 
-## 🚀 ¿Qué incluye este proyecto?
+## Cuándo Usar
+- El usuario comparte código de backend (rutas, controladores, consultas a BD) y pide una revisión o auditoría de seguridad.
+- El usuario pregunta cómo mitigar amenazas específicas (Inyección SQL, XSS, CSRF) en sus endpoints.
+- El usuario solicita el "hardening" (fortalecimiento) de una API o arquitectura de base de datos existente.
 
-*   **El Agente (`SKILL.md`)**: El núcleo lógico de la habilidad. Contiene las reglas operativas y parámetros para que el modelo de IA analice y fortifique código, con soporte nativo para entornos como Flask, Node.js, Next.js, SQLite y PostgreSQL.
-*   **La Landing Page**: Una interfaz web para presentar y probar la habilidad. Permite a los usuarios interactuar con el auditor ingresando fragmentos de código vulnerable para recibir instantáneamente la refactorización segura y recomendaciones de arquitectura.
+## Pasos
+1. **Análisis (Zero Trust / Confianza Cero):** Inspecciona el código proporcionado en busca de vulnerabilidades comunes del Top 10 de OWASP. Presta especial atención a consultas SQL directas, falta de validación de entradas, ausencia de limitación de peticiones (*rate limiting*), configuraciones CORS inseguras y manejo de errores verboso que exponga la arquitectura interna.
+2. **Refactorización:** Reescribe el código proporcionado para que sea seguro por defecto.
+   - Reemplaza las consultas de texto plano por consultas estrictamente parametrizadas o métodos de un ORM (crítico para PostgreSQL y SQLite).
+   - Implementa una validación estricta de *payloads* usando librerías robustas (ej. Zod, Joi, Pydantic, Marshmallow).
+   - Añade cabeceras de seguridad y middleware (ej. Helmet para Node/Next.js, Flask-Talisman para Python).
+3. **Explicación:** Proporciona un desglose conciso de las vulnerabilidades encontradas en el código original y explica exactamente cómo el código refactorizado las neutraliza.
+4. **Hardening (Arquitectura):** Sugiere 1 o 2 configuraciones de seguridad a nivel de infraestructura o entorno relevantes para las herramientas que el usuario esté usando (ej. estrategias de *Rate Limiting*, gestión segura de secretos).
 
-## ⚙️ Características Principales
-
-- **Análisis Zero Trust**: Detección inmediata de vulnerabilidades críticas (OWASP Top 10), incluyendo inyecciones SQL y exposición de datos sensibles.
-- **Refactorización Activa**: El auditor no se limita a señalar errores; reescribe el código aplicando parametrización estricta, ORMs seguros y validación robusta de *payloads*.
-- **Hardening a nivel de Infraestructura**: Recomendaciones dinámicas sobre configuración de CORS, *Rate Limiting* y gestión centralizada de secretos.
-
-## 📂 Estructura del Repositorio
-
-```text
-├── skill/
-│   └── SKILL.md          # Instrucciones base y configuración de la habilidad
-├── web/                  # Código fuente de la landing page (React/Next.js)
-│   ├── components/       # Componentes de la interfaz
-│   ├── pages/            # Vistas principales
-│   └── public/           # Assets estáticos
-└── README.md
+## Consideraciones Críticas
+- **No te limites a señalar los fallos:** Debes proporcionar el código refactorizado y listo para producción.
+- **Parametrización Estricta:** Nunca permitas el formateo o concatenación de variables de texto en consultas a bases de datos, incluso si los datos "parecen" seguros.
+- **Mínimo Privilegio:** Al sugerir roles de bases de datos o acceso a archivos, asume siempre por defecto el principio de mínimo privilegio.
